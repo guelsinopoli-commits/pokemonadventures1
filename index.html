@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#11152b">
+<title>Pokémon Adventures — GINGA</title>
+<style>
+:root{--ink:#11152b;--night:#090d1d;--paper:#fff8e9;--red:#f04452;--gold:#ffd166;--blue:#55c8ef;--muted:#b9bfd3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:white;font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:5;background:#0b1022ed;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff1b}
+.nav{max-width:1120px;margin:auto;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-weight:1000;letter-spacing:5px;font-size:1.5rem;color:var(--gold);text-shadow:3px 3px 0 var(--red)}
+nav{display:flex;gap:22px;font-size:.9rem;color:var(--muted)}
+nav a:hover{color:var(--gold)}
+.hero{min-height:610px;display:grid;place-items:center;position:relative;overflow:hidden;padding:75px 22px;background:radial-gradient(ellipse at 75% 45%,#253b70 0%,transparent 45%),linear-gradient(135deg,#151a39,#090d1d 70%)}
+.hero:before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(115deg,transparent 0 55px,#ffffff08 56px 58px);transform:rotate(-8deg)}
+.burst{position:absolute;width:470px;height:470px;right:8%;top:10%;border-radius:50%;background:repeating-conic-gradient(from 0deg,#ffd16610 0deg 5deg,transparent 5deg 12deg);mask:radial-gradient(circle,transparent 0 18%,#000 19% 70%,transparent 71%)}
+.hero-inner{position:relative;z-index:1;max-width:1120px;width:100%;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px}
+.kicker{color:var(--blue);font-weight:800;letter-spacing:3px;text-transform:uppercase;font-size:.75rem}
+h1{font-size:clamp(4.2rem,12vw,8.5rem);line-height:.82;letter-spacing:-8px;margin:18px 0;color:var(--paper);text-shadow:6px 6px 0 var(--red),11px 11px 0 #000}
+h1 span{color:var(--gold)}
+.subtitle{font-size:clamp(1.1rem,2.3vw,1.5rem);font-weight:800;max-width:520px;line-height:1.35}
+.intro{color:var(--muted);line-height:1.7;max-width:520px}
+.cta{display:inline-block;margin-top:18px;padding:14px 22px;background:var(--gold);color:var(--ink);font-weight:900;border-radius:5px;box-shadow:5px 5px 0 var(--red);transform:skew(-5deg);transition:.2s}
+.cta:hover{transform:skew(-5deg) translateY(-4px)}
+.art{height:390px;position:relative;display:flex;align-items:center;justify-content:center}
+.orb{width:270px;height:270px;border:3px solid #ffffff80;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7cf,#f8a83e 38%,#e33f54 72%,#6b214f);box-shadow:0 0 70px #f5a33c66,0 0 0 18px #ffffff0b,0 0 0 38px #ffffff08;position:relative}
+.orb:before{content:"";position:absolute;left:0;right:0;top:48%;height:15px;background:#161a32;border:4px solid #161a32}
+.orb:after{content:"";position:absolute;width:62px;height:62px;border-radius:50%;background:var(--paper);border:10px solid #161a32;left:calc(50% - 31px);top:calc(48% - 25px);box-shadow:0 0 0 5px #ffffff88}
+.spark{position:absolute;color:var(--gold);font-size:2.4rem;text-shadow:0 0 20px var(--gold)}
+.s1{top:25px;left:18%}.s2{right:8%;top:90px;font-size:1.5rem}.s3{bottom:35px;left:25%;font-size:1.3rem}
+.tag{position:absolute;background:var(--red);padding:10px 14px;font-weight:900;transform:rotate(-8deg);box-shadow:4px 4px 0 #090d1d}
+.tag.t1{left:0;bottom:55px}.tag.t2{right:0;top:48px;background:var(--blue);color:var(--ink);transform:rotate(7deg)}
+section{padding:82px 22px}
+.wrap{max-width:1050px;margin:auto}
+.section-label{color:var(--red);font-size:.75rem;font-weight:900;letter-spacing:3px;text-transform:uppercase}
+h2{font-size:clamp(2rem,5vw,3.4rem);margin:10px 0 18px;letter-spacing:-1.5px}
+.about{background:var(--paper);color:var(--ink)}
+.about p{font-size:1.1rem;line-height:1.8;max-width:790px}
+.highlight{color:#d62f48;font-weight:900}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+.card{background:#171d38;border:1px solid #ffffff20;padding:24px;border-radius:9px;position:relative;overflow:hidden;min-height:230px}
+.card:after{content:attr(data-number);position:absolute;right:8px;bottom:-25px;font-size:8rem;font-weight:1000;color:#ffffff09}
+.avatar{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:1.8rem;font-weight:1000;color:var(--ink);background:var(--gold);border:4px solid white;margin-bottom:18px}
+.card:nth-child(2) .avatar{background:var(--blue)}.card:nth-child(3) .avatar{background:#ff8791}
+.card h3{font-size:1.45rem;margin:0 0 8px}.card p{color:var(--muted);line-height:1.6;margin:0}
+.mystery{background:linear-gradient(120deg,#20284c,#11152b);text-align:center}
+.mystery .wrap{max-width:780px}
+.question{font-size:clamp(1.3rem,3vw,2rem);font-weight:900;line-height:1.45}
+.question span{color:var(--gold)}
+.chapters{background:#0c1124}
+.chapter-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+.chapter{border:1px solid #ffffff24;padding:20px;border-radius:8px;background:#151b34;cursor:pointer;text-align:left;color:white;transition:.2s}
+.chapter:hover,.chapter.active{border-color:var(--gold);transform:translateY(-3px);background:#202849}
+.chapter small{color:var(--blue);font-weight:900;letter-spacing:1px}
+.chapter strong{display:block;font-size:1.1rem;margin:8px 0}
+.chapter p{color:var(--muted);margin:0;line-height:1.5}
+#chapter-detail{margin-top:18px;padding:20px;border-left:4px solid var(--gold);background:#ffffff0b;color:var(--muted);line-height:1.7;min-height:75px}
+footer{padding:35px 22px;text-align:center;background:#070a16;color:#9da5bd;font-size:.9rem}
+footer strong{color:var(--gold);letter-spacing:3px}
+@media(max-width:760px){nav{gap:12px;font-size:.78rem}.hero-inner{grid-template-columns:1fr;text-align:center}.intro{margin:auto}.art{height:300px}.orb{width:210px;height:210px}.cards{grid-template-columns:1fr}.chapter-list{grid-template-columns:1fr}h1{letter-spacing:-4px}.nav{padding:13px 16px}}
+@media(max-width:420px){nav{gap:8px}nav a{font-size:.72rem}.logo{font-size:1.2rem}.art{height:260px}}
+
+<style id="ginga-quiz-styles">
+#quiz-ginga1 { margin: 4rem auto 2rem; max-width: 900px; }
+#quiz-ginga1 .section-heading { margin-bottom: 1.4rem; }
+.quiz-intro { display:flex; flex-direction:column; gap:.35rem; padding:1rem 1.2rem; margin:1.2rem 0 1.5rem; border:1px solid var(--accent, #e6a23c); border-radius:16px; background:rgba(230,162,60,.10); }
+.quiz-question { padding:1.15rem 1.25rem; margin:1rem 0; border:1px solid rgba(127,127,127,.25); border-radius:16px; background:rgba(127,127,127,.055); }
+.quiz-question h3 { margin:0 0 .85rem; font-size:1.05rem; }
+.quiz-question h3 small { display:block; margin-top:.3rem; opacity:.75; font-weight:500; }
+.quiz-question label { display:flex; align-items:center; gap:.65rem; padding:.48rem .55rem; margin:.18rem 0; border-radius:9px; cursor:pointer; }
+.quiz-question label:hover { background:rgba(127,127,127,.10); }
+.quiz-question input { accent-color:var(--accent, #e6a23c); width:1.05rem; height:1.05rem; }
+.quiz-submit { display:inline-block; margin:1rem 0; padding:.9rem 1.5rem; border:0; border-radius:999px; background:var(--accent, #e6a23c); color:#171717; font-weight:800; font-size:1rem; cursor:pointer; }
+.quiz-result { padding:1.2rem 1.35rem; margin-top:1rem; border:1px solid rgba(127,127,127,.3); border-radius:16px; }
+.quiz-result h3 { margin-top:0; }
+.quiz-result .quiz-score { font-size:2rem; font-weight:900; margin:.3rem 0; }
+.quiz-review { margin-top:1rem; padding-left:1.2rem; }
+.quiz-review li { margin:.45rem 0; }
+.quiz-review .right { color:#279b62; }
+.quiz-review .wrong { color:#d45b5b; }
+</style>
+</style>
+
+<style id="ginga-feedback-styles">
+.feedback-section{max-width:900px;margin:2.5rem auto 4rem;padding:2rem 1.25rem;text-align:center;border:1px solid #ffffff24;border-radius:22px;background:linear-gradient(135deg,#171e3d,#10162d)}
+.feedback-section .section-heading{margin-bottom:1.3rem}
+.feedback-actions{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:.8rem}
+.feedback-btn{border:1px solid #ffffff35;border-radius:999px;padding:.85rem 1.2rem;font-size:1rem;font-weight:800;color:white;background:#222c50;cursor:pointer;transition:transform .15s,background .15s,border-color .15s}
+.feedback-btn:hover{transform:translateY(-2px);border-color:var(--gold)}
+.feedback-btn span{display:inline-block;min-width:1.2em;margin-left:.25rem;color:var(--gold)}
+.share-btn{background:var(--gold);color:#11152b;border-color:var(--gold)}
+.vote-btn[aria-pressed="true"]{background:#344a78;border-color:var(--gold);box-shadow:0 0 0 2px #ffd16633}
+.feedback-message{min-height:1.5em;margin:1rem 0 0;color:var(--muted)}
+@media(max-width:560px){.feedback-actions{flex-direction:column}.feedback-btn{width:100%;max-width:320px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="logo" href="#inicio">POKÉMON ADVENTURES</a>
+    <nav><a href="#historia">História</a><a href="#personagens">Personagens</a><a href="#capitulos">Capítulos</a></nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="inicio">
+    <div class="burst"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="kicker">Uma aventura em formato GINGA</div>
+        <h1>POKÉMON<br><span>ADVENTURES</span></h1>
+        <div class="subtitle">Três caminhos. Uma jornada. Laços que ninguém imaginava.</div>
+        <p class="intro">Prepare-se para conhecer uma aventura cheia de descobertas, amizades, desafios e batalhas Pokémon. A jornada está só começando!</p>
+        <a class="cta" href="#historia">DESCOBRIR A HISTÓRIA →</a>
+      </div>
+      <div class="art" aria-label="Ilustração gráfica de uma esfera de energia">
+        <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <div class="orb"></div>
+        <div class="tag t1">A AVENTURA COMEÇA!</div><div class="tag t2">POKÉMON</div>
+      </div>
+    </div>
+  </section>
+  <section style="background:#202849;color:#fff;padding:35px 22px">
+    <div class="wrap">
+      <div class="section-label">Sobre o formato</div>
+      <h2>Por que GINGA?</h2>
+      <p style="line-height:1.8;color:var(--muted);max-width:800px">O nome <strong style="color:var(--gold)">GINGA</strong> vem da junção das palavras <strong>gibi</strong> e <strong>mangá</strong>. É o nome que damos ao estilo deste livro, que mistura a ideia dos gibis com a inspiração dos mangás. O título da aventura é <strong style="color:var(--gold)">Pokémon Adventures</strong>.</p>
+    </div>
+  </section>
+  <section class="about" id="historia">
+    <div class="wrap">
+      <div class="section-label">O começo de tudo</div>
+      <h2>Uma jornada inesperada</h2>
+      <p>Quando ainda eram pequenos, Eduardo, Miguel e Raul foram abandonados pelos pais. Um Charizard os levou para longe e os separou: Eduardo e Miguel foram deixados no Brasil, enquanto Raul foi parar nos Estados Unidos. Cada um cresceu seguindo seu próprio caminho, sem saber o que o futuro preparava.</p>
+      <p>Anos depois, Eduardo e Miguel começam suas jornadas Pokémon. No meio da aventura, <span class="highlight">Raul aparece e se junta aos dois</span>. Só que existe um grande segredo: Raul ainda não sabe que Eduardo e Miguel são seus irmãos!</p>
+    </div>
+  </section>
+  <section id="personagens">
+    <div class="wrap">
+      <div class="section-label">Conheça a equipe</div>
+      <h2>Os protagonistas</h2>
+      <div class="cards">
+        <article class="card" data-number="01"><div class="avatar">E</div><h3>Eduardo</h3><p>Um dos irmãos. Começa com <strong>Scorbunny</strong> e também tem um <strong>Fletchinder</strong>. Parte para explorar o mundo e viver grandes batalhas.</p></article>
+        <article class="card" data-number="02"><div class="avatar">M</div><h3>Miguel</h3><p>Irmão de Eduardo. Não chegou a tempo de escolher seu inicial, mas conquistou a amizade de um <strong>Riolu</strong>. Também tem um <strong>Combee grande</strong>, que encontrou enquanto corria atrás de Riolu. Depois da visita à família de Raul, Goh lhe dá uma Poké Bola de presente: dentro dela está um Fuecoco, mas Miguel ainda não sabe.</p></article>
+        <article class="card" data-number="03"><div class="avatar">R</div><h3>Raul</h3><p>Um companheiro muito grande que entra na jornada. Tem um <strong>Froakie</strong> e um <strong>Rattata</strong> com um segredo: ele é, na verdade, um Ditto! Isso ainda não foi revelado na história.</p></article>
+      </div>
+    </div>
+  </section>
+  <section style="background:#111831" id="equipes">
+    <div class="wrap">
+      <div class="section-label">Parceiros de aventura</div>
+      <h2>Os Pokémon da equipe</h2>
+      <div class="cards">
+        <article class="card"><div class="avatar">🔥</div><h3>Scorbunny</h3><p>O primeiro parceiro de Eduardo.</p></article>
+        <article class="card"><div class="avatar">🥊</div><h3>Riolu</h3><p>O Pokémon que aceitou a amizade de Miguel.</p></article>
+        <article class="card"><div class="avatar">🐝</div><h3>Pokémon abelha</h3><p>Um dos Pokémon de Miguel. É um Combee grande que Miguel encontrou enquanto corria atrás de Riolu.</p></article>
+        <article class="card"><div class="avatar">🔥</div><h3>Fuecoco</h3><p>Goh entrega a Miguel uma Poké Bola de presente depois da batalha contra Brock. Dentro dela está Fuecoco, mas Miguel ainda não sabe!</p></article>
+        <article class="card"><div class="avatar">🪽</div><h3>Fletchinder</h3><p>Outro Pokémon que acompanha Eduardo.</p></article>
+        <article class="card"><div class="avatar">💧</div><h3>Froakie</h3><p>Um dos Pokémon de Raul.</p></article>
+        <article class="card"><div class="avatar">❔</div><h3>Rattata?</h3><p>O Rattata de Raul esconde uma verdade: ele é um Ditto! Mas esse segredo ainda não apareceu para os personagens.</p></article>
+      </div>
+    </div>
+  </section>
+  <section style="background:#18213e" id="campeonato">
+    <div class="wrap">
+      <div class="section-label">Um desafio inesperado</div>
+      <h2>O campeonato é de trios!</h2>
+      <p style="color:var(--muted);line-height:1.8;max-width:800px">Eduardo e Miguel precisam ir ao <strong style="color:var(--gold)">México</strong> para enfrentar Brock em uma batalha de ginásio. Antes disso, descobrem que o campeonato é de <strong style="color:var(--gold)">trios</strong>, não de duplas, e percebem que precisam de mais um integrante para a equipe.</p>
+      <p style="color:var(--muted);line-height:1.8;max-width:800px">No caminho, eles viajam pelo <strong>Dragonite Express</strong> até os Estados Unidos para levar um Pokémon para ser curado. Na recepção, precisam falar inglês com a atendente. Durante o trajeto, encontram Raul batalhando contra um Pokémon selvagem. Para descobrir se ele é um bom treinador, Eduardo e Miguel desafiam Raul para uma batalha valendo 10 dólares: Rattata contra Fletchinder. Raul vence!</p>
+      <p style="color:var(--muted);line-height:1.8;max-width:800px">Eduardo pede uma revanche e aumenta a aposta para 20 dólares. Dessa vez, Eduardo vence. Raul tenta fugir sem pagar, mas o grupo consegue alcançá-lo e ele acaba pagando a viagem de Dragonite até o México. Lá, os três enfrentam Brock: Scorbunny, Froakie e Riolu conseguem a vitória de um jeito totalmente atrapalhado e inesperado!</p>
+      <p style="color:var(--muted);line-height:1.8;max-width:800px">Nessa parte da aventura, Miguel ainda tem Riolu e seu Combee grande, mas ainda não conseguiu Fuecoco. Eduardo também conta com Fletchinder além de Scorbunny.</p>
+    </div>
+  </section>
+  <section style="background:#18213e" id="familias">
+    <div class="wrap">
+      <div class="section-label">Depois do ginásio</div>
+      <h2>Uma visita cheia de surpresas</h2>
+      <p style="color:var(--muted);line-height:1.8;max-width:820px">Depois de vencerem Brock no México, Eduardo, Miguel e Raul vão dar um oi aos pais de Raul. Lá, descobrem que Raul é milionário! O pai de Raul é Goh e sua mãe é Sonia, conhecida por estar sempre acompanhada de Yamper, um Pokémon do tipo Elétrico.</p>
+      <p style="color:var(--muted);line-height:1.8;max-width:820px">Eles também descobrem uma informação surpreendente sobre a família de Eduardo e Miguel: Leon é o pai deles, mas a identidade da mãe ainda é desconhecida.</p>
+      <p style="color:var(--muted);line-height:1.8;max-width:820px">Antes de irem embora, Goh entrega a Miguel uma Poké Bola e diz que é um presente. Miguel ainda não sabe, mas dentro dela está um Fuecoco!</p>
+    </div>
+  </section>
+  <section class="mystery">
+    <div class="wrap">
+      <div class="section-label">Uma história de amizade e família</div>
+      <h2>O que vem pela frente?</h2>
+      <p class="question">Novos amigos, Pokémon incríveis e batalhas emocionantes… <span>até onde essa jornada vai levar os três?</span></p>
+    </div>
+  </section>
+  <section class="chapters" id="capitulos">
+    <div class="wrap">
+      <div class="section-label">Leia a aventura</div>
+      <h2>Diário de capítulos</h2>
+      <p style="color:var(--muted);line-height:1.6">Uma prévia da organização do gibi. Os títulos e resumos podem ser trocados pelos capítulos oficiais quando você os definir.</p>
+      <div class="chapter-list">
+        <button class="chapter active" data-detail="Eduardo e Miguel dão os primeiros passos em sua jornada Pokémon. Um mundo enorme está esperando por eles."><small>CAPÍTULO 01</small><strong>O início da jornada</strong><p>Dois irmãos partem rumo ao desconhecido.</p></button>
+        <button class="chapter" data-detail="A viagem continua. Os irmãos encontram novos desafios e percebem que cada cidade guarda uma surpresa."><small>CAPÍTULO 02</small><strong>Novos caminhos</strong><p>Uma aventura cheia de descobertas.</p></button>
+        <button class="chapter" data-detail="A caminho do México para a batalha de ginásio com Brock, Eduardo e Miguel viajam pelo Dragonite Express até os Estados Unidos para curar um Pokémon. Precisam falar inglês com a atendente e, no trajeto, encontram Raul batalhando contra um Pokémon selvagem."><small>CAPÍTULO 03</small><strong>Dragonite Express</strong><p>Uma viagem, um encontro inesperado.</p></button>
+        <button class="chapter" data-detail="Raul vence a primeira batalha contra Eduardo, valendo 10 dólares, usando Rattata contra Fletchinder. Eduardo pede revanche e dobra a aposta para 20 dólares. Na segunda batalha, Eduardo vence. Raul tenta fugir sem pagar, mas acaba pagando a viagem de Dragonite até o México."><small>CAPÍTULO 04</small><strong>A aposta de 20 dólares</strong><p>Uma revanche e uma fuga atrapalhada.</p></button>
+        <button class="chapter" data-detail="No México, os três enfrentam Brock na batalha de ginásio. Scorbunny, Froakie e Riolu conquistam a vitória de um jeito completamente atrapalhado!"><small>CAPÍTULO 05</small><strong>O desafio contra Brock</strong><p>Uma vitória muito inesperada!</p></button>
+        <button class="chapter" data-detail="Depois da vitória contra Brock, os três visitam os pais de Raul e descobrem que ele é milionário. Goh é o pai de Raul e Sonia, acompanhada de Yamper, é sua mãe. Também descobrem que Leon é o pai de Eduardo e Miguel, enquanto a mãe deles continua sendo um mistério. Goh dá a Miguel uma Poké Bola de presente — sem contar que dentro dela está Fuecoco!"><small>CAPÍTULO 06</small><strong>O presente misterioso</strong><p>Uma família cheia de revelações.</p></button>
+      </div>
+      <div id="chapter-detail" aria-live="polite">Eduardo e Miguel dão os primeiros passos em sua jornada Pokémon. Um mundo enorme está esperando por eles.</div>
+    </div>
+  </section>
+</main>
+
+<section id="site-feedback" class="section feedback-section">
+  <div class="section-heading"><p class="eyebrow">FALE COM A GENTE</p><h2>Curtiu o GINGA 1?</h2><p>Compartilhe o site e deixe sua avaliação!</p></div>
+  <div class="feedback-actions">
+    <button type="button" class="feedback-btn share-btn" id="share-site">↗ Compartilhar</button>
+    <button type="button" class="feedback-btn vote-btn" id="like-site" aria-pressed="false">👍 Gostei <span id="like-count">0</span></button>
+    <button type="button" class="feedback-btn vote-btn" id="dislike-site" aria-pressed="false">👎 Não gostei <span id="dislike-count">0</span></button>
+  </div>
+  <p id="feedback-message" class="feedback-message" aria-live="polite">Sua opinião ajuda o GINGA a melhorar!</p>
+</section>
+<footer><strong>POKÉMON ADVENTURES</strong><p>Eduardo, Miguel e Raul: três companheiros em uma só jornada.</p><p>GINGA é o nome do formato deste livro: a junção de <em>gibi</em> com <em>mangá</em>, formando a palavra GINGA.</p><h2 style="color:var(--gold);margin:30px 0 8px">Esse é o fim do GINGA 1...</h2><p style="font-size:1.3rem;font-weight:900;color:white">CONTINUA...</p><span>Projeto de fã, sem vínculo oficial com a Pokémon Company.</span>
+<section id="quiz-ginga1" class="section">
+  <div class="section-heading">
+    <p class="eyebrow">DESAFIO FINAL</p>
+    <h2>Quiz do GINGA 1</h2>
+    <p>Você prestou atenção na aventura? Responda às 10 perguntas e descubra sua nota!</p>
+  </div>
+  <div class="quiz-intro">
+    <strong>Valendo 10 pontos!</strong>
+    <span>Cada pergunta vale 1 ponto. Na questão 7, marque todas as respostas corretas.</span>
+  </div>
+  <form id="ginga-quiz-form">
+    <div class="quiz-question" data-question="1">
+      <h3>1. Qual Pokémon Eduardo usou na disputa contra o Rattata de Raul?</h3>
+      <label><input type="radio" name="q1" value="A"> Fletchinder</label>
+      <label><input type="radio" name="q1" value="B"> Scorbunny</label>
+      <label><input type="radio" name="q1" value="C"> Riolu</label>
+      <label><input type="radio" name="q1" value="D"> Froakie</label>
+    </div>
+    <div class="quiz-question" data-question="2">
+      <h3>2. Qual era o valor da primeira aposta entre Eduardo e Raul?</h3>
+      <label><input type="radio" name="q2" value="A"> 5 dólares</label>
+      <label><input type="radio" name="q2" value="B"> 10 dólares</label>
+      <label><input type="radio" name="q2" value="C"> 20 dólares</label>
+      <label><input type="radio" name="q2" value="D"> 50 dólares</label>
+    </div>
+    <div class="quiz-question" data-question="3">
+      <h3>3. O torneio da batalha contra Brock era disputado em trios.</h3>
+      <label><input type="radio" name="q3" value="true"> Verdadeiro</label>
+      <label><input type="radio" name="q3" value="false"> Falso</label>
+    </div>
+    <div class="quiz-question" data-question="4">
+      <h3>4. Como Eduardo e Miguel viajaram para encontrar Raul?</h3>
+      <label><input type="radio" name="q4" value="A"> De barco</label>
+      <label><input type="radio" name="q4" value="B"> De avião comum</label>
+      <label><input type="radio" name="q4" value="C"> Pelo Dragonite Express</label>
+      <label><input type="radio" name="q4" value="D"> De trem</label>
+    </div>
+    <div class="quiz-question" data-question="5">
+      <h3>5. Qual Pokémon Raul usou na primeira batalha contra Eduardo?</h3>
+      <label><input type="radio" name="q5" value="A"> Froakie</label>
+      <label><input type="radio" name="q5" value="B"> Rattata</label>
+      <label><input type="radio" name="q5" value="C"> Scorbunny</label>
+      <label><input type="radio" name="q5" value="D"> Riolu</label>
+    </div>
+    <div class="quiz-question" data-question="6">
+      <h3>6. Quem venceu a primeira batalha entre Raul e Eduardo?</h3>
+      <label><input type="radio" name="q6" value="A"> Eduardo</label>
+      <label><input type="radio" name="q6" value="B"> Miguel</label>
+      <label><input type="radio" name="q6" value="C"> Raul</label>
+      <label><input type="radio" name="q6" value="D"> A batalha terminou empatada</label>
+    </div>
+    <div class="quiz-question" data-question="7">
+      <h3>7. Quais Pokémon participaram da batalha do trio contra Brock? <small>Marque todos os corretos.</small></h3>
+      <label><input type="checkbox" name="q7" value="A"> Scorbunny</label>
+      <label><input type="checkbox" name="q7" value="B"> Froakie</label>
+      <label><input type="checkbox" name="q7" value="C"> Riolu</label>
+      <label><input type="checkbox" name="q7" value="D"> Rattata</label>
+    </div>
+    <div class="quiz-question" data-question="8">
+      <h3>8. Quem deu uma Poké Bola de presente para Miguel depois da batalha contra Brock?</h3>
+      <label><input type="radio" name="q8" value="A"> Leon</label>
+      <label><input type="radio" name="q8" value="B"> Goh</label>
+      <label><input type="radio" name="q8" value="C"> Raul</label>
+      <label><input type="radio" name="q8" value="D"> Brock</label>
+    </div>
+    <div class="quiz-question" data-question="9">
+      <h3>9. Miguel já sabia que a Poké Bola recebida de presente continha Fuecoco.</h3>
+      <label><input type="radio" name="q9" value="true"> Verdadeiro</label>
+      <label><input type="radio" name="q9" value="false"> Falso</label>
+    </div>
+    <div class="quiz-question" data-question="10">
+      <h3>10. Qual é o nome dado ao formato da obra, que mistura gibi e mangá?</h3>
+      <label><input type="radio" name="q10" value="A"> Pokémangá</label>
+      <label><input type="radio" name="q10" value="B"> GINGA</label>
+      <label><input type="radio" name="q10" value="C"> Pokébook</label>
+      <label><input type="radio" name="q10" value="D"> Adventure Comic</label>
+    </div>
+    <button type="submit" class="quiz-submit">Ver minha nota</button>
+  </form>
+  <div id="quiz-result" class="quiz-result" aria-live="polite" hidden></div>
+</section>
+</footer>
+<script>
+document.querySelectorAll('.chapter').forEach(button=>{
+  button.addEventListener('click',()=>{
+    document.querySelectorAll('.chapter').forEach(item=>item.classList.remove('active'));
+    button.classList.add('active');
+    document.getElementById('chapter-detail').textContent=button.dataset.detail;
+  });
+});
+</script>
+
+<script id="ginga-quiz-script">
+(() => {
+  const form = document.getElementById('ginga-quiz-form');
+  const result = document.getElementById('quiz-result');
+  if (!form || form.dataset.ready) return;
+  form.dataset.ready = 'true';
+  const answers = {
+    q1:['A'], q2:['B'], q3:['true'], q4:['C'], q5:['B'],
+    q6:['C'], q7:['A','B','C'], q8:['B'], q9:['false'], q10:['B']
+  };
+  const explanations = [
+    'Eduardo usou Fletchinder contra o Rattata de Raul.',
+    'A primeira aposta foi de 10 dólares.',
+    'O torneio exigia equipes de três treinadores.',
+    'Eles viajaram pelo Dragonite Express.',
+    'Raul escolheu seu Rattata para a primeira disputa.',
+    'Raul venceu a primeira batalha.',
+    'Scorbunny, Froakie e Riolu participaram da batalha contra Brock.',
+    'Goh deu a Poké Bola de presente para Miguel.',
+    'Miguel ainda não sabia que a Poké Bola continha Fuecoco.',
+    'GINGA é o nome do formato que mistura gibi e mangá.'
+  ];
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    let score = 0;
+    const review = [];
+    for (let i = 1; i <= 10; i++) {
+      const selected = [...form.querySelectorAll(`[name="q${i}"]:checked`)].map(el => el.value).sort();
+      const expected = [...answers[`q${i}`]].sort();
+      const correct = selected.length === expected.length && selected.every((v, idx) => v === expected[idx]);
+      if (correct) score++;
+      review.push(`<li class="${correct ? 'right' : 'wrong'}"><strong>${i}. ${correct ? 'Acertou!' : 'Não foi dessa vez.'}</strong> ${explanations[i-1]}</li>`);
+    }
+    const message = score === 10 ? 'PERFEITO! Você conhece muito o GINGA 1!' :
+      score >= 7 ? 'Mandou muito bem! Você lembra de quase toda a aventura!' :
+      score >= 4 ? 'Boa tentativa! Vale relembrar alguns capítulos.' :
+      'Hora de reler o GINGA 1 e tentar de novo!';
+    result.innerHTML = `<h3>Seu resultado</h3><div class="quiz-score">${score}/10</div><p>${message}</p><p>Confira as respostas:</p><ol class="quiz-review">${review.join('')}</ol><button type="button" class="quiz-submit" id="quiz-retry">Tentar novamente</button>`;
+    result.hidden = false;
+    result.scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('quiz-retry').addEventListener('click', () => {
+      form.reset();
+      result.hidden = true;
+      form.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+})();
+</script>
+
+<script id="ginga-feedback-script">
+(() => {
+  const like = document.getElementById('like-site');
+  const dislike = document.getElementById('dislike-site');
+  const share = document.getElementById('share-site');
+  const message = document.getElementById('feedback-message');
+  if (!like || !dislike || !share || like.dataset.ready) return;
+  like.dataset.ready = 'true';
+  const storageKey = 'ginga1-site-vote';
+  let vote = null;
+  try { vote = localStorage.getItem(storageKey); } catch(e) {}
+  const update = () => {
+    like.setAttribute('aria-pressed', String(vote === 'like'));
+    dislike.setAttribute('aria-pressed', String(vote === 'dislike'));
+    document.getElementById('like-count').textContent = vote === 'like' ? '1' : '0';
+    document.getElementById('dislike-count').textContent = vote === 'dislike' ? '1' : '0';
+  };
+  const choose = next => {
+    vote = vote === next ? null : next;
+    try {
+      if (vote) localStorage.setItem(storageKey, vote);
+      else localStorage.removeItem(storageKey);
+    } catch(e) {}
+    update();
+    message.textContent = vote === 'like' ? 'Que bom que você gostou do GINGA 1! 💛' :
+      vote === 'dislike' ? 'Obrigado pela sinceridade! Vamos usar sua opinião para melhorar.' :
+      'Sua avaliação foi desmarcada.';
+  };
+  like.addEventListener('click', () => choose('like'));
+  dislike.addEventListener('click', () => choose('dislike'));
+  share.addEventListener('click', async () => {
+    const data = {title: document.title, text: 'Confira Pokémon Adventures — GINGA 1!', url: location.href};
+    try {
+      if (navigator.share) {
+        await navigator.share(data);
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(location.href);
+        message.textContent = 'Link copiado! Agora é só enviar para seus amigos. 🔗';
+      } else {
+        message.textContent = 'Copie o endereço do site na barra do navegador para compartilhar.';
+      }
+    } catch(e) {
+      if (e.name !== 'AbortError') message.textContent = 'Não foi possível compartilhar agora. Tente copiar o link do site.';
+    }
+  });
+  update();
+})();
+</script>
+</body>
+</html>
